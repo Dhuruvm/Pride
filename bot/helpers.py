@@ -203,18 +203,25 @@ class StartUp:
  async def startup(bot):
     await bot.wait_until_ready()
 
- async def loadcogs(self): 
+ async def loadcogs(self):
+  loaded_count = 0
   
   for file in os.listdir("./events"): 
-   if file.endswith(".py"):
+   if file.endswith(".py") and file != "__init__.py":
     try:
      await self.load_extension(f"events.{file[:-3]}")
-     print(f"Loaded plugin {file[:-3]}".lower())
-    except Exception as e: print("failed to load %s %s".lower(), file[:-3], e)
+     print(f"  ✓ Loaded event: {file[:-3]}")
+     loaded_count += 1
+    except Exception as e:
+     print(f"  ✗ Failed to load event {file[:-3]}: {e}")
   
   for fil in os.listdir("./cogs"):
-   if fil.endswith(".py"):
+   if fil.endswith(".py") and fil != "__init__.py":
     try:
      await self.load_extension(f"cogs.{fil[:-3]}")
-     print(f"Loaded plugin {fil[:-3]}".lower())
-    except Exception as e: print("failed to load %s %s".lower(), fil[:-3], e)
+     print(f"  ✓ Loaded cog: {fil[:-3]}")
+     loaded_count += 1
+    except Exception as e:
+     print(f"  ✗ Failed to load cog {fil[:-3]}: {e}")
+  
+  return loaded_count

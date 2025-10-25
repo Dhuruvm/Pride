@@ -90,7 +90,11 @@ class Redis(AsyncStrictRedis):
 
     @classmethod
     async def from_url(cls):
-        redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379")
+        redis_url = os.environ.get("REDIS_URL")
+        if not redis_url:
+            print("WARNING: REDIS_URL not set, using local Redis (not recommended for production)")
+            redis_url = "redis://localhost:6379"
+        
         return cls(
             connection_pool=BlockingConnectionPool.from_url(
                 redis_url,
@@ -138,11 +142,27 @@ class Evict(commands.AutoShardedBot):
         self.support_server = os.environ.get("support_server")
         
   async def create_db_pool(self):
-        self.db = await asyncpg.create_pool(port="5432", database="evict", user="postgres", host="localhost", password="admin")
+        try:
+            db_url = os.environ.get("DATABASE_URL")
+            if db_url:
+                self.db = await asyncpg.create_pool(db_url)
+                print("Connected to database successfully!")
+            else:
+                print("No DATABASE_URL found, database features will be disabled")
+                self.db = None
+        except Exception as e:
+            print(f"Failed to connect to database: {e}")
+            self.db = None
         
   async def on_ready(self) -> None:
         print("I'm online!")
-        await self.cogs["Music"].start_nodes()
+        print(f"Logged in as {self.user.name} (ID: {self.user.id})")
+        print(f"Connected to {len(self.guilds)} guilds")
+        if "Music" in self.cogs:
+            try:
+                await self.cogs["Music"].start_nodes()
+            except Exception as e:
+                print(f"Failed to start music nodes: {e}")
         
   async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
       if isinstance(error, commands.CommandNotFound): return 
@@ -211,13 +231,32 @@ class Evict(commands.AutoShardedBot):
         self.add_view(DeleteTicket())
         self.add_view(GiveawayView())
         
-        await self.load_extension('jishaku')
-        await self.create_db_pool()
-        self.redis: Redis = await Redis.from_url()
+        try:
+            await self.load_extension('jishaku')
+            print("✓ Loaded jishaku extension")
+        except Exception as e:
+            print(f"✗ Failed to load jishaku: {e}")
         
-        await StartUp.loadcogs(self)
+        await self.create_db_pool()
+        
+        try:
+            self.redis: Redis = await Redis.from_url()
+            print("✓ Connected to Redis successfully!")
+        except Exception as e:
+            print(f"✗ Failed to connect to Redis: {e}")
+            print("  Redis-dependent features will be disabled")
+            self.redis = None
+        
+        cogs_loaded = await StartUp.loadcogs(self)
+        print(f"✓ Loaded {cogs_loaded if isinstance(cogs_loaded, int) else 'N/A'} cogs")
        
-        await create_db(self)
+        if self.db:
+            try:
+                await create_db(self)
+                print("✓ Database tables created/verified")
+            except Exception as e:
+                print(f"✗ Failed to create database tables: {e}")
+                print("  Database-dependent features may not work")
 
   async def get_context(self, message: discord.Message, cls=EvictContext) -> EvictContext:
       return await super().get_context(message, cls=cls)
