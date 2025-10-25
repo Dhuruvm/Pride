@@ -6,7 +6,7 @@ from discord.ui import View
 from discord.ext import commands
 from bot.ext import PaginatorView
 
-class EvictContext(Context): 
+class PrideContext(Context): 
   flags: Dict[str, Any] = {}
   
   async def getprefix(bot, message):
@@ -51,7 +51,7 @@ class EvictContext(Context):
       return await self.message.add_reaction("✅")
   
   async def lastfm_message(self, message: str) -> discord.Message: 
-    return await self.reply(embed=discord.Embed(color=0xff0000, description=f"> <:lastfm:1263727050309632031> {self.author.mention}: {message}"))  
+    return await self.reply(embed=discord.Embed(color=0xFFFFFF, description=f"> <:lastfm:1263727050309632031> {self.author.mention}: {message}"))  
   
   async def paginate(self, contents: List[str], title:str=None, author: dict={'name': '', 'icon_url': None}):
    iterator = [m for m in utils.as_chunks(contents, 10)]
@@ -141,7 +141,7 @@ class EvictContext(Context):
      if webhook.user == self.me:
        return webhook
    
-   return await channel.create_webhook(name='evict')
+   return await channel.create_webhook(name='pride')
 
   async def cmdhelp(self): 
     
@@ -159,11 +159,26 @@ class EvictContext(Context):
     
 class HelpCommand(commands.HelpCommand):
   def __init__(self, **kwargs):
-   self.ec_color = 0xCCCCFF
+   self.ec_color = 0xFFFFFF
    super().__init__(**kwargs)
 
-  async def send_bot_help(self, ctx: commands.Context) -> None:
-    return await self.context.reply(f'{self.context.author.mention}: check <https://evict.cc/commands> for list of commands')
+  async def send_bot_help(self, mapping) -> None:
+    embed = discord.Embed(
+      title="Pride Bot - Help Menu",
+      description="Select a category from the dropdown menu below",
+      color=0xFFFFFF
+    )
+    embed.add_field(name="information", value="[ ] = optional, < > = required", inline=False)
+    
+    categories = []
+    for cog, commands in mapping.items():
+      if cog and commands:
+        categories.append(f"**{cog.qualified_name}**\n{cog.description if cog.description else 'No description'}")
+    
+    if categories:
+      embed.add_field(name="Categories", value="\n\n".join(categories), inline=False)
+    
+    return await self.context.reply(embed=embed)
   
   async def send_command_help(self, command: commands.Command):
     

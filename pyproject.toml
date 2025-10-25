@@ -1,7 +1,7 @@
 [project]
-name = "evict-bot"
+name = "pride-bot"
 version = "0.1.0"
-description = "Evict Discord Bot"
+description = "Pride Discord Bot"
 authors = [
     {name = "Your Name", email = "you@example.com"}
 ]

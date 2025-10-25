@@ -6,7 +6,7 @@ from humanfriendly import format_timespan
 from discord.ext import commands
 
 from bot.helpers import StartUp
-from bot.helpers import EvictContext, HelpCommand
+from bot.helpers import PrideContext, HelpCommand
 from bot.ext import Client
 from bot.database import create_db
 from bot.headers import Session
@@ -105,16 +105,16 @@ class Redis(AsyncStrictRedis):
             )
         )
 
-class Evict(commands.AutoShardedBot):
+class Pride(commands.AutoShardedBot):
   def __init__(self, db: asyncpg.Pool=None):
-        super().__init__(command_prefix=EvictContext.getprefix, allowed_mentions=discord.AllowedMentions(roles=False, everyone=False, users=True, replied_user=False), intents=discord.Intents.all(), 
+        super().__init__(command_prefix=PrideContext.getprefix, allowed_mentions=discord.AllowedMentions(roles=False, everyone=False, users=True, replied_user=False), intents=discord.Intents.all(), 
                          owner_ids=[214753146512080907, 598125772754124823], shard_count=1,
-                         help_command=HelpCommand(), strip_after_prefix=True, activity=discord.CustomActivity(name="🔗 evict.cc"))
+                         help_command=HelpCommand(), strip_after_prefix=True, activity=discord.CustomActivity(name="🌈 Pride Bot"))
         
         self.db = db
         
-        self.color = 0xCCCCFF
-        self.error_color= 0xFFFFED
+        self.color = 0xFFFFFF
+        self.error_color= 0xFFFFFF
         self.yes = "<:approve:1263726951613464627>"
         self.no = "<:deny:1269374707484852265>"
         self.warning = "<:warn:1263727178802004021>"
@@ -170,7 +170,7 @@ class Evict(commands.AutoShardedBot):
       if isinstance(error, commands.CheckFailure): 
         if isinstance(error, commands.MissingPermissions): return await ctx.warning(f"This command requires **{error.missing_permissions[0]}** permission")
       elif isinstance(error, commands.CommandOnCooldown):
-        if ctx.command.name != "hit": return await ctx.reply(embed=discord.Embed(color=0xE1C16E, description=f"⌛ {ctx.author.mention}: You are on cooldown. Try again in {format_timespan(error.retry_after)}"), mention_author=False)    
+        if ctx.command.name != "hit": return await ctx.reply(embed=discord.Embed(color=0xFFFFFF, description=f"⌛ {ctx.author.mention}: You are on cooldown. Try again in {format_timespan(error.retry_after)}"), mention_author=False)    
       if isinstance(error, commands.MissingRequiredArgument): return await ctx.cmdhelp()
       if isinstance(error, commands.EmojiNotFound): return await ctx.warning(f"Unable to convert {error.argument} into an **emoji**")
       if isinstance(error, commands.MemberNotFound): return await ctx.warning(f"Unable to find member **{error.argument}**")
@@ -258,5 +258,5 @@ class Evict(commands.AutoShardedBot):
                 print(f"✗ Failed to create database tables: {e}")
                 print("  Database-dependent features may not work")
 
-  async def get_context(self, message: discord.Message, cls=EvictContext) -> EvictContext:
+  async def get_context(self, message: discord.Message, cls=PrideContext) -> PrideContext:
       return await super().get_context(message, cls=cls)

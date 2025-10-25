@@ -2,7 +2,7 @@ import discord
 import asyncio
 import os
 import sys
-from bot import Evict
+from bot import Pride
 
 async def main():
     discord_token = os.environ.get("DISCORD_TOKEN")
@@ -10,7 +10,7 @@ async def main():
         print("ERROR: DISCORD_TOKEN environment variable not set!")
         sys.exit(1)
     
-    bot = Evict()
+    bot = Pride()
     
     try:
         await bot.start(discord_token)

@@ -1,3 +1,3 @@
-from bot.bot import Evict
+from bot.bot import Pride
 
-__all__ = ['Evict']
+__all__ = ['Pride']
