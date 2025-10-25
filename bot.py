@@ -89,12 +89,11 @@ class Redis(AsyncStrictRedis):
         return await self._lock()
 
     @classmethod
-    async def from_url(
-        cls,
-    ):  # URL: redis://default:f6sYIi6qucgqHsHJIKeLOsqRv9Oj9BAG@redis-11641.c282.east-us-mz.azure.redns.redis-cloud.com:11641"
-        return await cls(
+    async def from_url(cls):
+        redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379")
+        return cls(
             connection_pool=BlockingConnectionPool.from_url(
-                "redis://default:f6sYIi6qucgqHsHJIKeLOsqRv9Oj9BAG@redis-11641.c282.east-us-mz.azure.redns.redis-cloud.com:11641",
+                redis_url,
                 decode_responses=True,
                 timeout=1,
                 max_connections=7000,
