@@ -119,6 +119,7 @@ class Help(commands.Cog):
             color=self.color
         )
         embed.set_author(name=bot_name, icon_url=bot_avatar)
+        embed.set_thumbnail(url=bot_avatar)
         
         embed.add_field(
             name="information",
