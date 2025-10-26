@@ -6,7 +6,7 @@ from humanfriendly import format_timespan
 from discord.ext import commands
 
 from bot.helpers import StartUp
-from bot.helpers import PrideContext, HelpCommand
+from bot.helpers import PrideContext
 from bot.ext import Client
 from bot.database import create_db
 from bot.headers import Session
@@ -109,7 +109,7 @@ class Pride(commands.AutoShardedBot):
   def __init__(self, db: asyncpg.Pool=None):
         super().__init__(command_prefix=PrideContext.getprefix, allowed_mentions=discord.AllowedMentions(roles=False, everyone=False, users=True, replied_user=False), intents=discord.Intents.all(), 
                          owner_ids=[214753146512080907, 598125772754124823], shard_count=1,
-                         help_command=HelpCommand(), strip_after_prefix=True, activity=discord.CustomActivity(name="🌈 Pride Bot"))
+                         help_command=None, strip_after_prefix=True, activity=discord.CustomActivity(name="🌈 Pride Bot"))
         
         self.db = db
         
