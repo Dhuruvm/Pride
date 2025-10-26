@@ -289,37 +289,6 @@ wheels = [
 ]
 
 [[package]]
-name = "evict-bot"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "aiohttp" },
-    { name = "asyncpg" },
-    { name = "discord-ios" },
-    { name = "discord-py" },
-    { name = "humanfriendly" },
-    { name = "humanize" },
-    { name = "jishaku" },
-    { name = "orjson" },
-    { name = "pomice" },
-    { name = "redis" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "aiohttp", specifier = ">=3.9.0" },
-    { name = "asyncpg", specifier = ">=0.29.0" },
-    { name = "discord-ios", specifier = ">=1.0.0" },
-    { name = "discord-py", specifier = ">=2.3.0" },
-    { name = "humanfriendly", specifier = ">=10.0" },
-    { name = "humanize", specifier = ">=4.0.0" },
-    { name = "jishaku", specifier = ">=2.5.0" },
-    { name = "orjson", specifier = ">=3.0.0" },
-    { name = "pomice", specifier = ">=2.9.0" },
-    { name = "redis", specifier = ">=5.0.0" },
-]
-
-[[package]]
 name = "frozenlist"
 version = "1.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -677,6 +646,37 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/71/3f/11f1924fe56cdfa0aa53f0038a5fe7b43b39719a972a5f9a161c6fc0b154/pomice-2.10.0.tar.gz", hash = "sha256:72152cdf45af35a95ac538d3cd50cefa4701c906b7fd89823aa38afdf49a856c", size = 54250, upload-time = "2025-10-04T04:09:28.533Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/38/05b29eeefc42276d69fc1eea898d201d4cc4e029ca881ba55f6f34d8b1f6/pomice-2.10.0-py3-none-any.whl", hash = "sha256:5964aacd4da87fd76d330e04b96fda67fad7e1254ec27af9d83a81ce8c1df358", size = 57652, upload-time = "2025-10-04T04:09:24.664Z" },
+]
+
+[[package]]
+name = "pride-bot"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "asyncpg" },
+    { name = "discord-ios" },
+    { name = "discord-py" },
+    { name = "humanfriendly" },
+    { name = "humanize" },
+    { name = "jishaku" },
+    { name = "orjson" },
+    { name = "pomice" },
+    { name = "redis" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "aiohttp", specifier = ">=3.9.0" },
+    { name = "asyncpg", specifier = ">=0.29.0" },
+    { name = "discord-ios", specifier = ">=1.0.0" },
+    { name = "discord-py", specifier = ">=2.3.0" },
+    { name = "humanfriendly", specifier = ">=10.0" },
+    { name = "humanize", specifier = ">=4.0.0" },
+    { name = "jishaku", specifier = ">=2.5.0" },
+    { name = "orjson", specifier = ">=3.0.0" },
+    { name = "pomice", specifier = ">=2.9.0" },
+    { name = "redis", specifier = ">=5.0.0" },
 ]
 
 [[package]]

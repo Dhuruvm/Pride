@@ -7,7 +7,7 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "discord.py>=2.3.0",
+    "discord-py>=2.3.0",
     "asyncpg>=0.29.0",
     "humanfriendly>=10.0",
     "discord-ios>=1.0.0",
