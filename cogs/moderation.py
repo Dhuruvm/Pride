@@ -37,12 +37,8 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author.bot
         
-        deleted = await ctx.channel.purge(limit=amount, check=check)
-        embed = discord.Embed(
-            description=f"Cleaned up **{len(deleted)}** bot messages",
-            color=self.color
-        )
-        await ctx.send(embed=embed, delete_after=5)
+        deleted = await ctx.channel.purge(limit=amount + 1, check=check)
+        await ctx.success(f"Cleaned up **{len(deleted) - 1}** bot messages")
     
     @commands.command(
         name="purge",
@@ -62,13 +58,9 @@ class Moderation(commands.Cog):
                 return m.author.id == member.id
             return True
         
-        deleted = await ctx.channel.purge(limit=amount, check=check)
+        deleted = await ctx.channel.purge(limit=amount + 1, check=check)
         target = f" from {member.mention}" if member else ""
-        embed = discord.Embed(
-            description=f"Purged **{len(deleted)}** messages{target}",
-            color=self.color
-        )
-        await ctx.send(embed=embed, delete_after=5)
+        await ctx.success(f"Purged **{len(deleted) - 1}** messages{target}")
     
     @commands.command(
         name="selfpurge",
@@ -84,12 +76,8 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author.id == ctx.author.id
         
-        deleted = await ctx.channel.purge(limit=amount, check=check)
-        embed = discord.Embed(
-            description=f"Purged **{len(deleted)}** of your messages",
-            color=self.color
-        )
-        await ctx.send(embed=embed, delete_after=5)
+        deleted = await ctx.channel.purge(limit=amount + 1, check=check)
+        await ctx.success(f"Purged **{len(deleted) - 1}** of your messages")
     
     @commands.command(
         name="role",

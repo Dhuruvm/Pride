@@ -59,12 +59,12 @@ class CategorySelect(Select):
             command_text = ""
             for cmd in commands_list:
                 cmd_brief = cmd.brief if cmd.brief else "any"
-                command_text += f"`{cmd.name}`{'*' if cmd_brief != 'any' else ''}, "
+                command_text += f"{cmd.name}{'*' if cmd_brief != 'any' else ''}, "
             
             command_text = command_text.rstrip(", ")
             embed.add_field(
                 name=f"{len(commands_list)} commands",
-                value=command_text,
+                value=f"```{command_text}```",
                 inline=False
             )
         else:
